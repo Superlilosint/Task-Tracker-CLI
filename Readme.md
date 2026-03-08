@@ -44,6 +44,26 @@ cd Task-Tracker-CLI
     hello-cli update 1 "Drink a Milk"
 ```
 
+- **Delete a Task**
+```bash
+    hello-cli delete 1 
+```
+
+- **Mark-In-Progress a Task**
+```bash
+    hello-cli mark-in-progress 1
+```
+
+- **Mark-Done a Task**
+```bash
+    hello-cli mark-done 1
+```
+
+- **List all Task**
+```bash
+    hello-cli listall
+```
+
 
 ### Sample JSON structure
 ```JSON 
