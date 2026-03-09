@@ -61,7 +61,22 @@ cd Task-Tracker-CLI
 
 - **List all Task**
 ```bash
-    hello-cli listall
+    hello-cli list
+```
+
+- **List all done Task**
+```bash
+    hello-cli list done
+```
+
+- **List all in-progress Task**
+```bash
+    hello-cli list in-progress
+```
+
+- **List all todo Task**
+```bash
+    hello-cli list todo
 ```
 
 
