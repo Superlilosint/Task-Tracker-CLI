@@ -18,6 +18,11 @@ function writeTasks(task) {
     console.log("successfully written");
 }
 
+function appendTask(task) {
+    fs.appendFileSync(taskFilePath, JSON.stringify(task), 'utf-8')
+    console.log("Appened successfully!!")
+}
+
 function compareNumber(a, b) {
     return a - b; //ascending order
 }
@@ -60,7 +65,7 @@ function updateTask(ids, description) {
     if(task) {
         task.description = description;
         task.updatedAt = Date.now();
-        writeTasks(task);
+        writeTasks(tasks); 
         console.log(`Task added successfully! (ID: ${task.id} and UpdateAt: ${task.updatedAt})`);
     } else {
         console.log(`This ${ids} doesn't exist at all!!`)
@@ -87,9 +92,8 @@ function MarkInProgress(ids) {
     const markedTask = tasks.find(t => t.id === parseInt(ids));
     
     if(markedTask) {
-        markedTask.inProgress = true;
-        markedTask.completed = false;
-        writeTasks(markedTask);
+        markedTask.status = "in-progress";
+        writeTasks(tasks);
         console.log(`Successfully marked the progress for this ${markedTask.id} id.`);
     } else {
         console.log(`${ids} doesn't exists at all.`)
@@ -102,9 +106,8 @@ function MarkDone(ids) {
     const doneTask = tasks.find(t => t.id === parseInt(ids));
 
     if(doneTask) {
-        doneTask.completed = true;
-        doneTask.inProgress = false;
-        writeTasks(doneTask);
+        doneTask.status = "done";
+        writeTasks(tasks);
         console.log(`Successfully marked the task to done for this ${doneTask.id} id.`);
     } else {
         console.log(`${ids} doesn't exists at all.`)
@@ -126,7 +129,11 @@ function listStatus(status) {
 
     if(status) {
         if(status.toLowerCase() === "done") {
-            filteredTasks = tasks.filter((t) => t.completed);
+            filteredTasks = tasks.filter((t) => t.status === "done");
+        } else if (status.toLowerCase() === "todo"){
+            filteredTasks = tasks.filter((t) => t.status === "todo");
+        } else if (status.toLowerCase() === "in-progress") {
+            filteredTasks = tasks.filter((t) => t.status === "in-progress");
         }
     }
 
@@ -176,14 +183,15 @@ switch (arg[0]) {
         break;
 
     case "list": 
-        listall();
+        const [list, condition] = arg;
+        
+        if(!condition) {
+            listall();
+        } else {
+            listStatus(condition);
+        }
         break;
 
-    case "list-status":
-        const status = arg[1];
-        listStatus(status); 
-        //Note: Append is needed because writeTask() is rewritting the answer
-        break;
     default:
         console.log(`Sorry, we don't have that command !!`);
         break;
